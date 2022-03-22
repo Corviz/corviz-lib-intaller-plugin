@@ -16,6 +16,6 @@
     }
   },
   "extra": {
-    "class": "Corviz\\Composer\\LibInstallerPlugin\\AppInstallerPlugin"
+    "class": "Corviz\\Composer\\LibInstallerPlugin\\LibInstallerPlugin"
   }
 }
