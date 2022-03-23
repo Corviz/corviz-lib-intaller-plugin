@@ -86,7 +86,7 @@ class LibraryInstaller extends BaseLibraryInstaller implements InstallerInterfac
 
             foreach ($items as $index => $item) {
                 $indexText = $includeIndexes ? "'$index' => " : '';
-                $text .= $spaces.$indexText.rtrim(trim($line), ',').','."\r\n";
+                $text .= $spaces.$indexText.rtrim(trim($line), ',').'::class,'."\r\n";
             }
 
             return "{$matches[1]}\r\n$text    {$matches[4]}";
