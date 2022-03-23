@@ -42,9 +42,10 @@ class LibraryInstaller extends BaseLibraryInstaller implements InstallerInterfac
                         $appConfigFileContents, 'middleware', $extra['middleware']
                     );
                 }
+
+                file_put_contents($appConfigFile, $appConfigFileContents);
             }
         }
-
 
         return $response;
     }
