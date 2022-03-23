@@ -39,7 +39,7 @@ class LibraryInstaller extends BaseLibraryInstaller implements InstallerInterfac
 
                 if ($hasMiddlewares) {
                     $this->addItemsToArrayInCfgFile(
-                        $appConfigFileContents, 'middleware', $extra['middleware']
+                        $appConfigFileContents, 'middleware', $extra['middleware'], true
                     );
                 }
 
@@ -73,15 +73,20 @@ class LibraryInstaller extends BaseLibraryInstaller implements InstallerInterfac
      * @param array $items
      * @return void
      */
-    private function addItemsToArrayInCfgFile(&$fileContent, $index, array $items)
+    private function addItemsToArrayInCfgFile(&$fileContent, $index, array $items, $includeIndexes = false)
     {
         $re = '/([\'"]'.$index.'[\'"]\s*\=\>\s*(array\(|\[))([^\])]*)(\)|\])/m';
-        $cb = function($matches) use (&$items){
+        $cb = function($matches) use (&$items, &$includeIndexes){
             $text = '';
             $spaces = str_repeat(' ', 8);
             $lines = array_filter(preg_split("/(\r\n|\n|\r)/", $matches[3]), 'trim');
-            foreach (array_merge($lines, $items) as $line) {
+            foreach ($lines as $line) {
                 $text .= $spaces.rtrim(trim($line), ',').','."\r\n";
+            }
+
+            foreach ($items as $index => $item) {
+                $indexText = $includeIndexes ? "'$index' => " : '';
+                $text .= $spaces.$indexText.rtrim(trim($line), ',').','."\r\n";
             }
 
             return "{$matches[1]}\r\n$text    {$matches[4]}";
